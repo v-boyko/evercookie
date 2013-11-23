@@ -70,8 +70,16 @@
 var _ec_history = 1, // CSS history knocking or not .. can be network intensive
   _ec_java = 1, // Java applet on/off... may prompt users for permission to run.
   _ec_tests = 10, //1000
-  _ec_baseurl = '', // base url for php, flash and silverlight assets
   _ec_domain = '.' + window.location.host.replace(/:\d+/, ''); // Get current domain
+
+var _ec_urls = {
+  'png' : '/evercookie/png',
+  'cache': '/evercookie/cache',
+  'etag' : '/evercookie/etag',
+  'swf' : '/evercookie/evercookie.swf',
+  'xap' : '/evercookie/evercookie.xap',
+  'jnlp' : '/evercookie/evercookie.jnlp'
+};
 
 function _ec_replace(str, key, value) {
   if (str.indexOf("&" + key + "=") > -1 || str.indexOf(key + "=") === 0) {
@@ -327,7 +335,7 @@ var evercookie = (function (window) {
         // make sure we have evercookie session defined first
         document.cookie = "evercookie_cache=" + value + "; domain=" + _ec_domain;
         // evercookie_cache.php handles caching
-        newImage(_ec_baseurl + "evercookie_cache.php?name=" + name);
+        newImage(_ec_ulrs['cache'] + "?name=" + name);
       } else {
         // interestingly enough, we want to erase our evercookie
         // http cookie so the php will force a cached response
@@ -336,7 +344,7 @@ var evercookie = (function (window) {
         document.cookie = "evercookie_cache=; expires=Mon, 20 Sep 2010 00:00:00 UTC; path=/; domain=" + _ec_domain;
 
         self.ajax({
-          url: _ec_baseurl + "evercookie_cache.php?name=" + name,
+          url: _ec_ulrs['cache'] + "?name=" + name,
           success: function (data) {
             // put our cookie back
             document.cookie = "evercookie_cache=" + origvalue + "; expires=Tue, 31 Dec 2030 00:00:00 UTC; path=/; domain=" + _ec_domain;
@@ -352,7 +360,7 @@ var evercookie = (function (window) {
         // make sure we have evercookie session defined first
         document.cookie = "evercookie_etag=" + value + "; domain=" + _ec_domain;
         // evercookie_etag.php handles etagging
-        newImage(_ec_baseurl + "evercookie_etag.php?name=" + name);
+        newImage(_ec_ulrs['etag'] + "?name=" + name);
       } else {
         // interestingly enough, we want to erase our evercookie
         // http cookie so the php will force a cached response
@@ -361,7 +369,7 @@ var evercookie = (function (window) {
         document.cookie = "evercookie_etag=; expires=Mon, 20 Sep 2010 00:00:00 UTC; path=/; domain=" + _ec_domain;
 
         self.ajax({
-          url: _ec_baseurl + "evercookie_etag.php?name=" + name,
+          url: _ec_ulrs['etag'] + "?name=" + name,
           success: function (data) {
             // put our cookie back
             document.cookie = "evercookie_etag=" + origvalue + "; expires=Tue, 31 Dec 2030 00:00:00 UTC; path=/; domain=" + _ec_domain;
@@ -396,7 +404,7 @@ var evercookie = (function (window) {
       if (typeof ecApplet === "undefined") {
         dtjava.embed({ 
         	id: "ecApplet",
-        	url: _ec_baseurl + "evercookie.jnlp", 
+        	url: _ec_ulrs['jnlp'], 
         	width: "1px", 
         	height: "1px", 
         	placeholder: "ecAppletContainer"
@@ -438,7 +446,7 @@ var evercookie = (function (window) {
       params.swliveconnect = "true";
       attributes.id        = "myswf";
       attributes.name      = "myswf";
-      swfobject.embedSWF(_ec_baseurl + "evercookie.swf", "swfcontainer", "1", "1", "9.0.0", false, flashvars, params, attributes);
+      swfobject.embedSWF(_ec_ulrs['swf'], "swfcontainer", "1", "1", "9.0.0", false, flashvars, params, attributes);
     };
 
     this.evercookie_png = function (name, value) {
@@ -494,7 +502,7 @@ var evercookie = (function (window) {
             }
           };
         }
-        img.src = _ec_baseurl + "evercookie_png.php?name=" + name;
+        img.src = _ec_ulrs['png'] + "?name=" + name;
       }
     };
 
@@ -575,7 +583,7 @@ var evercookie = (function (window) {
        * Ok. so, I tried doing this the proper dom way, but IE chokes on appending anything in object tags (including params), so this
        * is the best method I found. Someone really needs to find a less hack-ish way. I hate the look of this shit.
        */
-      var source = _ec_baseurl + "evercookie.xap",
+      var source = _ec_ulrs['xap'],
         minver = "4.0.50401.0",
         initParam = "",
         html;
