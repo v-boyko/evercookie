@@ -335,7 +335,7 @@ var evercookie = (function (window) {
         // make sure we have evercookie session defined first
         document.cookie = "evercookie_cache=" + value + "; domain=" + _ec_domain;
         // evercookie_cache.php handles caching
-        newImage(_ec_ulrs['cache'] + "?name=" + name);
+        newImage(_ec_urls['cache'] + "?name=" + name);
       } else {
         // interestingly enough, we want to erase our evercookie
         // http cookie so the php will force a cached response
@@ -344,7 +344,7 @@ var evercookie = (function (window) {
         document.cookie = "evercookie_cache=; expires=Mon, 20 Sep 2010 00:00:00 UTC; path=/; domain=" + _ec_domain;
 
         self.ajax({
-          url: _ec_ulrs['cache'] + "?name=" + name,
+          url: _ec_urls['cache'] + "?name=" + name,
           success: function (data) {
             // put our cookie back
             document.cookie = "evercookie_cache=" + origvalue + "; expires=Tue, 31 Dec 2030 00:00:00 UTC; path=/; domain=" + _ec_domain;
@@ -360,7 +360,7 @@ var evercookie = (function (window) {
         // make sure we have evercookie session defined first
         document.cookie = "evercookie_etag=" + value + "; domain=" + _ec_domain;
         // evercookie_etag.php handles etagging
-        newImage(_ec_ulrs['etag'] + "?name=" + name);
+        newImage(_ec_urls['etag'] + "?name=" + name);
       } else {
         // interestingly enough, we want to erase our evercookie
         // http cookie so the php will force a cached response
@@ -369,7 +369,7 @@ var evercookie = (function (window) {
         document.cookie = "evercookie_etag=; expires=Mon, 20 Sep 2010 00:00:00 UTC; path=/; domain=" + _ec_domain;
 
         self.ajax({
-          url: _ec_ulrs['etag'] + "?name=" + name,
+          url: _ec_urls['etag'] + "?name=" + name,
           success: function (data) {
             // put our cookie back
             document.cookie = "evercookie_etag=" + origvalue + "; expires=Tue, 31 Dec 2030 00:00:00 UTC; path=/; domain=" + _ec_domain;
@@ -404,7 +404,7 @@ var evercookie = (function (window) {
       if (typeof ecApplet === "undefined") {
         dtjava.embed({ 
         	id: "ecApplet",
-        	url: _ec_ulrs['jnlp'], 
+        	url: _ec_urls['jnlp'], 
         	width: "1px", 
         	height: "1px", 
         	placeholder: "ecAppletContainer"
@@ -446,7 +446,7 @@ var evercookie = (function (window) {
       params.swliveconnect = "true";
       attributes.id        = "myswf";
       attributes.name      = "myswf";
-      swfobject.embedSWF(_ec_ulrs['swf'], "swfcontainer", "1", "1", "9.0.0", false, flashvars, params, attributes);
+      swfobject.embedSWF(_ec_urls['swf'], "swfcontainer", "1", "1", "9.0.0", false, flashvars, params, attributes);
     };
 
     this.evercookie_png = function (name, value) {
@@ -502,7 +502,7 @@ var evercookie = (function (window) {
             }
           };
         }
-        img.src = _ec_ulrs['png'] + "?name=" + name;
+        img.src = _ec_urls['png'] + "?name=" + name;
       }
     };
 
@@ -583,7 +583,7 @@ var evercookie = (function (window) {
        * Ok. so, I tried doing this the proper dom way, but IE chokes on appending anything in object tags (including params), so this
        * is the best method I found. Someone really needs to find a less hack-ish way. I hate the look of this shit.
        */
-      var source = _ec_ulrs['xap'],
+      var source = _ec_urls['xap'],
         minver = "4.0.50401.0",
         initParam = "",
         html;
